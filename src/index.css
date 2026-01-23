@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --border-width-1\.5: 1.5px;
+  --text-2xs: 10px;
+  --text-md: 17px;
+}
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+@layer base {
+  html {
+    @apply scrollbar-thin;
+  }
+
+  * {
+    @apply box-border scrollbar-thin;
+    font-family: "Inter", sans-serif;
+  }
+
+  body {
+    @apply bg-white text-gray-900;
+  }
+
+  ::selection {
+    @apply bg-indigo-500 text-indigo-50;
+  }
+}
+
+@layer components {
+  .input {
+    @apply w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm transition-colors text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-indigo-400;
+  }
+}
