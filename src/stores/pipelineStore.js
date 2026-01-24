@@ -3,6 +3,14 @@ import { persist } from "zustand/middleware";
 
 const INITIAL_STATE = { nodes: [], edges: [], nodeIdCounters: {} };
 
+const createEdgeObject = ({
+  id,
+  source,
+  sourceHandle,
+  target,
+  targetHandle,
+}) => ({ id, source, sourceHandle, target, targetHandle });
+
 const usePipelineStore = create(
   persist(
     (set, get) => ({
@@ -44,6 +52,38 @@ const usePipelineStore = create(
         }));
       },
 
+      addEdgeFromVariable: (sourceNodeId, targetNodeId, targetHandle) => {
+        const { nodes, edges } = get();
+        const sourceNode = nodes.find((n) => n.id === sourceNodeId);
+
+        if (!sourceNode) return;
+        if (sourceNode.id === targetNodeId) return;
+
+        const sourceHandle = `${sourceNode.id}-output`;
+
+        if (
+          edges.some(
+            (edge) =>
+              edge.source === sourceNode.id &&
+              edge.target === targetNodeId &&
+              edge.sourceHandle === sourceHandle &&
+              edge.targetHandle === targetHandle,
+          )
+        ) {
+          return;
+        }
+
+        const newEdge = createEdgeObject({
+          id: `e-${sourceNode.id}-${targetNodeId}-${Date.now()}`,
+          source: sourceNode.id,
+          sourceHandle,
+          target: targetNodeId,
+          targetHandle,
+        });
+
+        set({ edges: [...edges, newEdge] });
+      },
+
       clearPipeline: () => set({ ...INITIAL_STATE }),
     }),
     {
@@ -68,6 +108,8 @@ export const useUpdateNodeField = () =>
 
 export const useRemoveEdge = () =>
   usePipelineStore((state) => state.removeEdge);
+export const useAddEdgeFromVariable = () =>
+  usePipelineStore((state) => state.addEdgeFromVariable);
 
 export const useClearPipeline = () =>
   usePipelineStore((state) => state.clearPipeline);
