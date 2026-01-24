@@ -19,8 +19,7 @@ A modern visual pipeline builder for creating, connecting, and validating workfl
 - Zustand
 - Tailwind CSS
 
-### Setup
+## Setup
 
-1. `cd frontend`
-2. Install dependencies: `pnpm install`
-3. Run the development server: `pnpm run dev`
+1. Install dependencies: `pnpm install`
+2. Run the development server: `pnpm run dev`
