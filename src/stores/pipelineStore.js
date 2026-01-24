@@ -28,6 +28,22 @@ const usePipelineStore = create(
         }));
       },
 
+      updateNodeField: (nodeId, fieldName, fieldValue) => {
+        set((state) => ({
+          nodes: state.nodes.map((node) =>
+            node.id === nodeId
+              ? { ...node, data: { ...node.data, [fieldName]: fieldValue } }
+              : node,
+          ),
+        }));
+      },
+
+      removeEdge: (edgeId) => {
+        set((state) => ({
+          edges: state.edges.filter((edge) => edge.id !== edgeId),
+        }));
+      },
+
       clearPipeline: () => set({ ...INITIAL_STATE }),
     }),
     {
@@ -47,6 +63,11 @@ export const useEdges = () => usePipelineStore((state) => state.edges);
 export const useAddNode = () => usePipelineStore((state) => state.addNode);
 export const useRemoveNode = () =>
   usePipelineStore((state) => state.removeNode);
+export const useUpdateNodeField = () =>
+  usePipelineStore((state) => state.updateNodeField);
+
+export const useRemoveEdge = () =>
+  usePipelineStore((state) => state.removeEdge);
 
 export const useClearPipeline = () =>
   usePipelineStore((state) => state.clearPipeline);
