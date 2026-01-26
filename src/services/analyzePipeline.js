@@ -1,16 +1,16 @@
 export default function analyzePipeline(nodes, edges) {
-  const nodeIds = nodes.map((node) => node.id);
-  const nodeCount = nodeIds.length;
-
+  const nodeCount = nodes.length;
   if (nodeCount === 0) return { nodeCount: 0, edgeCount: 0, isDag: true };
 
+  const nodeIds = nodes.map((n) => n.id);
   const nodeSet = new Set(nodeIds);
+
   const adjacencyList = new Map();
   const inDegree = new Map();
 
-  for (const nodeId of nodeIds) {
-    adjacencyList.set(nodeId, []);
-    inDegree.set(nodeId, 0);
+  for (const id of nodeIds) {
+    adjacencyList.set(id, []);
+    inDegree.set(id, 0);
   }
 
   let validEdgeCount = 0;
@@ -23,23 +23,21 @@ export default function analyzePipeline(nodes, edges) {
   }
 
   const queue = [];
-  for (const [nodeId, degree] of inDegree) {
-    if (degree === 0) queue.push(nodeId);
+  for (const [id, degree] of inDegree) {
+    if (degree === 0) queue.push(id);
   }
 
   let processedCount = 0;
+  let head = 0;
 
-  while (queue.length > 0) {
-    const currentNode = queue.shift();
+  while (head < queue.length) {
+    const current = queue[head++];
     processedCount++;
 
-    for (const neighbor of adjacencyList.get(currentNode)) {
+    for (const neighbor of adjacencyList.get(current)) {
       const newDegree = inDegree.get(neighbor) - 1;
       inDegree.set(neighbor, newDegree);
-
-      if (newDegree === 0) {
-        queue.push(neighbor);
-      }
+      if (newDegree === 0) queue.push(neighbor);
     }
   }
 
