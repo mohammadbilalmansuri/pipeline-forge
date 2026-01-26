@@ -17,6 +17,7 @@ const usePipelineStore = create(
       ...INITIAL_STATE,
 
       addNode: ({ type, position, data }) => {
+        if (!type || !position) return;
         set((state) => {
           const newCount = (state.nodeIdCounters[type] || 0) + 1;
           const newNode = { id: `${type}_${newCount}`, type, position, data };
@@ -28,6 +29,7 @@ const usePipelineStore = create(
       },
 
       removeNode: (nodeId) => {
+        if (!nodeId) return;
         set((state) => ({
           nodes: state.nodes.filter((node) => node.id !== nodeId),
           edges: state.edges.filter(
@@ -37,6 +39,7 @@ const usePipelineStore = create(
       },
 
       updateNodeField: (nodeId, fieldName, fieldValue) => {
+        if (!nodeId || !fieldName) return;
         set((state) => ({
           nodes: state.nodes.map((node) =>
             node.id === nodeId
@@ -47,31 +50,32 @@ const usePipelineStore = create(
       },
 
       removeEdge: (edgeId) => {
+        if (!edgeId) return;
         set((state) => ({
           edges: state.edges.filter((edge) => edge.id !== edgeId),
         }));
       },
 
       addEdgeFromVariable: (sourceNodeId, targetNodeId, targetHandle) => {
+        if (!sourceNodeId || !targetNodeId || !targetHandle) return;
+        if (sourceNodeId === targetNodeId) return;
+
         const { nodes, edges } = get();
         const sourceNode = nodes.find((n) => n.id === sourceNodeId);
 
         if (!sourceNode) return;
-        if (sourceNode.id === targetNodeId) return;
 
         const sourceHandle = `${sourceNode.id}-output`;
 
-        if (
-          edges.some(
-            (edge) =>
-              edge.source === sourceNode.id &&
-              edge.target === targetNodeId &&
-              edge.sourceHandle === sourceHandle &&
-              edge.targetHandle === targetHandle,
-          )
-        ) {
-          return;
-        }
+        const edgeExists = edges.some(
+          (edge) =>
+            edge.source === sourceNode.id &&
+            edge.target === targetNodeId &&
+            edge.sourceHandle === sourceHandle &&
+            edge.targetHandle === targetHandle,
+        );
+
+        if (edgeExists) return;
 
         const newEdge = createEdgeObject({
           id: `e-${sourceNode.id}-${targetNodeId}-${Date.now()}`,
