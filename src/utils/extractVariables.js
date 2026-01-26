@@ -1,11 +1,13 @@
 import { VARIABLE_REGEX } from "@/config";
 
 const extractVariables = (text) => {
-  if (typeof text !== "string") return [];
+  if (!text || typeof text !== "string") return [];
+
   const regex = new RegExp(VARIABLE_REGEX.source, "g");
   const uniqueVariables = new Set();
 
-  for (const match of text.matchAll(regex)) {
+  let match;
+  while ((match = regex.exec(text)) !== null) {
     if (match[1]) uniqueVariables.add(match[1]);
   }
 
