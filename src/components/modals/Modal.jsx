@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { CircleX } from "lucide-react";
 import { cn } from "@/utils";
 
@@ -10,6 +11,17 @@ const Modal = ({
   extraClassName = "",
   className = "",
 }) => {
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (e) => {
+      if (e.key === "Escape") onClose?.();
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const handleBackdropClick = (e) => {
