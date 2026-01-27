@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
 
 const INITIAL_STATE = { nodes: [], edges: [], nodeIdCounters: {} };
 
@@ -88,6 +89,27 @@ const usePipelineStore = create(
         set({ edges: [...edges, newEdge] });
       },
 
+      onNodesChange: (changes) => {
+        if (!changes?.length) return;
+        set({ nodes: applyNodeChanges(changes, get().nodes) });
+      },
+
+      onEdgesChange: (changes) => {
+        if (!changes?.length) return;
+        set({ edges: applyEdgeChanges(changes, get().edges) });
+      },
+
+      onConnect: (connection) => {
+        if (!connection?.source || !connection?.target) return;
+        if (connection.source === connection.target) return;
+
+        const newEdge = createEdgeObject({
+          ...connection,
+          id: `e-${connection.source}-${connection.target}-${Date.now()}`,
+        });
+        set({ edges: addEdge(newEdge, get().edges) });
+      },
+
       clearPipeline: () => set({ ...INITIAL_STATE }),
     }),
     {
@@ -114,6 +136,12 @@ export const useRemoveEdge = () =>
   usePipelineStore((state) => state.removeEdge);
 export const useAddEdgeFromVariable = () =>
   usePipelineStore((state) => state.addEdgeFromVariable);
+
+export const useOnNodesChange = () =>
+  usePipelineStore((state) => state.onNodesChange);
+export const useOnEdgesChange = () =>
+  usePipelineStore((state) => state.onEdgesChange);
+export const useOnConnect = () => usePipelineStore((state) => state.onConnect);
 
 export const useClearPipeline = () =>
   usePipelineStore((state) => state.clearPipeline);
