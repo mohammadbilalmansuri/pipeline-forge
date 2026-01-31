@@ -3,6 +3,7 @@ import ReactFlow, {
   Background,
   Controls,
   MiniMap,
+  ReactFlowProvider,
   useReactFlow,
 } from "reactflow";
 import "reactflow/dist/style.css";
@@ -103,3 +104,11 @@ const CanvasContent = () => {
     </main>
   );
 };
+
+const Canvas = () => (
+  <ReactFlowProvider>
+    <CanvasContent />
+  </ReactFlowProvider>
+);
+
+export default Canvas;
