@@ -36,3 +36,28 @@
     @apply w-full border border-gray-300 rounded-md px-2 py-1.5 text-sm transition-colors text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-indigo-400;
   }
 }
+
+.react-flow__node {
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transition: transform 0.1s ease;
+}
+
+.react-flow__node:hover {
+  z-index: 10 !important;
+}
+
+.react-flow__controls {
+  @apply bg-white rounded shadow-none overflow-hidden lg:block hidden;
+}
+
+.react-flow__minimap {
+  @apply bg-white rounded-lg shadow-sm overflow-hidden lg:block hidden;
+}
+
+.react-flow__attribution {
+  display: none !important;
+}
