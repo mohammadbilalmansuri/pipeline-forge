@@ -3,6 +3,7 @@ import ReactFlow, {
   Background,
   Controls,
   MiniMap,
+  Panel,
   ReactFlowProvider,
   useReactFlow,
 } from "reactflow";
@@ -17,6 +18,7 @@ import {
   useOnConnect,
 } from "@/stores";
 import { NODE_TYPES } from "../nodes";
+import SavedStatusBadge from "./SavedStatusBadge";
 
 const SNAP_GRID = [20, 20];
 const PRO_OPTIONS = { hideAttribution: true };
@@ -100,6 +102,9 @@ const CanvasContent = () => {
         <Background variant="dots" size={2} gap={20} color="#d1d5dc" />
         <Controls showZoom showFitView showInteractive position="bottom-left" />
         <MiniMap pannable zoomable position="bottom-right" />
+        <Panel position="top-right">
+          <SavedStatusBadge />
+        </Panel>
       </ReactFlow>
     </main>
   );
