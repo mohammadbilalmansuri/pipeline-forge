@@ -1,9 +1,9 @@
 import { Position } from "reactflow";
 import { CircleX } from "lucide-react";
 import { ID_VALIDATION_REGEX } from "@/config";
-import { useRemoveNode } from "@/stores";
+import { useAddEdgeFromVariable, useRemoveNode } from "@/stores";
 import { useDebouncedField, useConfirm } from "@/hooks";
-import { cn } from "@/utils";
+import { cn, extractVariables } from "@/utils";
 import NodeHandle from "./NodeHandle";
 import VariableBadges from "./VariableBadges";
 
@@ -19,6 +19,7 @@ const BaseNode = ({
   selected,
   className,
 }) => {
+  const addEdgeFromVariable = useAddEdgeFromVariable();
   const removeNode = useRemoveNode();
 
   const [handleIdChange, localId] = useDebouncedField(
@@ -29,6 +30,26 @@ const BaseNode = ({
     (value) => value === "" || ID_VALIDATION_REGEX.test(value),
   );
   const [confirmDelete, handleDelete] = useConfirm(() => removeNode(id));
+
+  const handleContentBlur = () => {
+    if (variableFields.length === 0) return;
+
+    const allVariables = new Set();
+
+    for (const field of variableFields) {
+      const value = data[field];
+      if (value && typeof value === "string") {
+        for (const v of extractVariables(value)) {
+          allVariables.add(v);
+        }
+      }
+    }
+
+    const targetHandle = `${id}-input`;
+    for (const variable of allVariables) {
+      addEdgeFromVariable(variable, id, targetHandle);
+    }
+  };
 
   return (
     <div
@@ -64,7 +85,9 @@ const BaseNode = ({
         placeholder="node_id"
       />
 
-      <div className="px-1.5 nodrag">{children}</div>
+      <div className="px-1.5 nodrag" onBlur={handleContentBlur}>
+        {children}
+      </div>
 
       <VariableBadges data={data} variableFields={variableFields} />
 
