@@ -18,7 +18,12 @@ import {
   useOnConnect,
 } from "@/stores";
 import { NODE_TYPES } from "../nodes";
+import CustomEdge from "./CustomEdge";
 import SavedStatusBadge from "./SavedStatusBadge";
+
+const EDGE_TYPES = {
+  custom: CustomEdge,
+};
 
 const SNAP_GRID = [20, 20];
 const PRO_OPTIONS = { hideAttribution: true };
@@ -86,6 +91,7 @@ const CanvasContent = () => {
         onDragOver={onDragOver}
         isValidConnection={isValidConnection}
         nodeTypes={NODE_TYPES}
+        edgeTypes={EDGE_TYPES}
         proOptions={PRO_OPTIONS}
         snapToGrid
         snapGrid={SNAP_GRID}
