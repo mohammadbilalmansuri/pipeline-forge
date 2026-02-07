@@ -1,7 +1,7 @@
 import { NUMBER_REGEX, getNodeConfig } from "@/config";
 import { useDebouncedField } from "@/hooks";
 import { NodeField, TextInput } from "../ui";
-import BaseNode from "../canvas/BaseNode";
+import { BaseNode } from "../canvas";
 
 const DelayNode = ({ id, data, selected }) => {
   const { label, Icon } = getNodeConfig("delay");
