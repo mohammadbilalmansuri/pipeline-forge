@@ -4,6 +4,7 @@ import CodeNode from "./CodeNode";
 import DelayNode from "./DelayNode";
 import NoteNode from "./NoteNode";
 import OutputNode from "./OutputNode";
+import LLMNode from "./LLMNode";
 
 export const NODE_TYPES = {
   input: InputNode,
@@ -12,4 +13,5 @@ export const NODE_TYPES = {
   delay: DelayNode,
   note: NoteNode,
   output: OutputNode,
+  llm: LLMNode,
 };
