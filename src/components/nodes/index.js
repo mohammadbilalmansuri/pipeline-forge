@@ -5,6 +5,7 @@ import DelayNode from "./DelayNode";
 import NoteNode from "./NoteNode";
 import OutputNode from "./OutputNode";
 import LLMNode from "./LLMNode";
+import KnowledgeBaseNode from "./KnowledgeBaseNode";
 
 export const NODE_TYPES = {
   input: InputNode,
@@ -14,4 +15,5 @@ export const NODE_TYPES = {
   note: NoteNode,
   output: OutputNode,
   llm: LLMNode,
+  knowledgeBase: KnowledgeBaseNode,
 };
