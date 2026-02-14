@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CheckCircle } from "lucide-react";
 import { useNodes, useEdges } from "@/stores";
 
@@ -7,11 +7,13 @@ const SavedStatusBadge = () => {
   const edges = useEdges();
   const [show, setShow] = useState(false);
 
+  const hideTimerRef = useRef(null);
+
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
       setShow(true);
-      const hideTimer = setTimeout(() => setShow(false), 3000);
-      return () => clearTimeout(hideTimer);
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      hideTimerRef.current = setTimeout(() => setShow(false), 3000);
     }, 500);
 
     return () => clearTimeout(debounceTimer);
