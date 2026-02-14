@@ -1,21 +1,23 @@
-import InputNode from "./InputNode";
-import TextNode from "./TextNode";
+import APINode from "./APINode";
 import CodeNode from "./CodeNode";
 import DelayNode from "./DelayNode";
+import InputNode from "./InputNode";
+import KnowledgeBaseNode from "./KnowledgeBaseNode";
+import LLMNode from "./LLMNode";
 import NoteNode from "./NoteNode";
 import OutputNode from "./OutputNode";
-import LLMNode from "./LLMNode";
-import KnowledgeBaseNode from "./KnowledgeBaseNode";
+import TextNode from "./TextNode";
 import TransformNode from "./TransformNode";
 
 export const NODE_TYPES = {
-  input: InputNode,
-  text: TextNode,
+  api: APINode,
   code: CodeNode,
   delay: DelayNode,
+  input: InputNode,
+  knowledgeBase: KnowledgeBaseNode,
+  llm: LLMNode,
   note: NoteNode,
   output: OutputNode,
-  llm: LLMNode,
-  knowledgeBase: KnowledgeBaseNode,
+  text: TextNode,
   transform: TransformNode,
 };
