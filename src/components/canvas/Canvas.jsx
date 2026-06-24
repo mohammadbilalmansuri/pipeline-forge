@@ -71,7 +71,9 @@ const CanvasContent = () => {
         position,
         data: getNodeInitialData(nodeType),
       });
-    } catch {}
+    } catch {
+      // ignore invalid data
+    }
   };
 
   const onDragOver = (event) => {

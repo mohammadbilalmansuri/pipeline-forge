@@ -10,10 +10,15 @@ const useDebouncedField = (
 ) => {
   const updateNodeField = useUpdateNodeField();
   const [localValue, setLocalValue] = useState(initialValue);
+  const [prevInitialValue, setPrevInitialValue] = useState(initialValue);
   const timeoutRef = useRef(null);
 
-  useEffect(() => {
+  if (initialValue !== prevInitialValue) {
+    setPrevInitialValue(initialValue);
     setLocalValue(initialValue);
+  }
+
+  useEffect(() => {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };

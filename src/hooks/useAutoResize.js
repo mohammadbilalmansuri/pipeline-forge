@@ -22,6 +22,7 @@ const useAutoResize = (value, minRows = 4, maxRows = 10) => {
 
   useEffect(() => {
     resize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, minRows, maxRows]);
 
   return { ref: textareaRef, resize };
